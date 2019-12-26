@@ -1,6 +1,7 @@
 # flutter_news_app
 
-A new Flutter project.
+A simple app that shows top headlines from the open sourced news_api.
+To run locally, request an api key from https://newsapi.org/ and set it as an env variable.
 
 ## Getting Started
 
