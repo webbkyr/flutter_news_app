@@ -47,14 +47,10 @@ class _NewsAppState extends State<NewsApp> {
               future: articles,
               builder: (context, snapshot) {
                 if (snapshot.hasError) print(snapshot.error);
-                return snapshot.hasData
-                  ? ListView.builder(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (context, index) {
-                      return Text(snapshot.data[index].description);
-                    },
-                  )
-                  : Center(child: CircularProgressIndicator());
+                else {
+                  return _buildList(snapshot.data);
+                }
+                return Center(child: CircularProgressIndicator());
               }
             )
           )
@@ -62,7 +58,35 @@ class _NewsAppState extends State<NewsApp> {
       ),
     );
   }
+
+  Widget _buildRow(Article article) {
+    return ListTile(
+      title: Text(
+        article.title, 
+        style: TextStyle(fontSize: 16.0)
+        ),
+      subtitle: Text(
+        article.author != null ? "By: ${article.author}" : 'By: N/A',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 12.0
+        )
+      ),
+    );
+  }
+
+  Widget _buildList(List<Article> articles) {
+    return ListView.builder(
+      padding: const EdgeInsets.all(12.0),
+      itemCount: articles.length,
+      itemBuilder: (context, index) {
+        if (index.isOdd) return Divider();
+        return _buildRow(articles[index]);
+      },
+    );
+  }
 }
+
 
 class NewsApiResponse {
   final String status;
